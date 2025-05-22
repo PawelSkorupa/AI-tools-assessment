@@ -53,14 +53,26 @@ public class TspTest {
 
     @ParameterizedTest(name = "[{0}] testTSPSolution")
     @ArgumentsSource(TspSolverProvider.class)
-    @Disabled
+    // @Disabled
     public void testTSPSolution15x15(String solverName, TspAlgorithm solver) {
         GraphUtils.SampleTspData data = GraphUtils.getSampleGraph15x15();
 
         int[][] graph = data.getGraph();
         TspResult expected = data.getExpectedResult();
 
+        Runtime runtime = Runtime.getRuntime();
+        runtime.gc();
+        long beforeUsedMem = runtime.totalMemory() - runtime.freeMemory();
+
+        long startTime = System.nanoTime();
         TspResult actual = solver.solveTSP(graph);
+        long endTime = System.nanoTime();
+
+        long afterUsedMem = runtime.totalMemory() - runtime.freeMemory();
+        long timeMillis = (endTime - startTime) / 1_000_000;
+        long memKB = (afterUsedMem - beforeUsedMem) / 1024;
+
+        System.out.println(solverName + ": Time = " + timeMillis + " ms, Memory = " + memKB + " KB");
 
         assertTrue(GraphUtils.validatePath(actual.getPath(), graph.length), solverName + ": Invalid path!");
         assertEquals(expected.getCost(), actual.getCost(), solverName + ": Incorrect cost!");
