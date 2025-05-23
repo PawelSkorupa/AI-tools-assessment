@@ -17,7 +17,8 @@ public class TspSolverProvider implements ArgumentsProvider {
                 Arguments.of("Github Copilot", new ComplexGithubCopilotSolution()),
                 Arguments.of("Claude", new ComplexClaudeSolution()),
                 Arguments.of("DeepSeek BruteForce", new ComplexDeepSeekBruteForceSolution()),
-                Arguments.of("DeepSeek Nearest Neighbour", new ComplexDeepSeekNNSolution())
+                Arguments.of("DeepSeek Nearest Neighbour", new ComplexDeepSeekNNSolution()),
+                Arguments.of("Google Gemini", new ComplexGeminiSolution())
                 // Add more solvers here
         );
     }
